@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>个人网站</title>
+<meta name="description" content="个人主页与作品集">
+<link rel="stylesheet" href="css/style.css">
+<script>
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#">你的名字</a>
+
+    <nav id="site-nav" class="site-nav" aria-label="主导航">
+      <a href="#about">关于</a>
+      <a href="#skills">技能</a>
+      <a href="#projects">项目</a>
+      <a href="#contact">联系</a>
+    </nav>
+
+    <button class="icon-btn nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="icon-btn-label">菜单</span>
+    </button>
+
+    <button class="icon-btn theme-toggle" type="button" aria-label="切换深浅色主题">
+      <span class="icon-btn-label">主题</span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">嵌入式开发 / 硬件 / 上位机</p>
+      <h1>一句话介绍你自己</h1>
+      <p class="lead">
+        这里写两三句概述：你做什么、擅长什么、现在在关注什么。
+        这段话是访客第一眼看到的内容，值得多花点时间打磨。
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#projects">看看我的项目</a>
+        <a class="btn" href="#contact">联系我</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section">
+    <div class="wrap">
+      <h2>关于</h2>
+      <p>
+        写一段自我介绍。可以包含：目前在做什么、过往经历、
+        技术兴趣方向，以及你希望别人怎么和你合作。
+      </p>
+      <p>
+        段落不要写太长，两到三段就够了。
+      </p>
+    </div>
+  </section>
+
+  <section id="skills" class="section section-soft">
+    <div class="wrap">
+      <h2>技能</h2>
+      <ul class="card-grid">
+        <li class="card">
+          <h3>MCU 与固件</h3>
+          <p>STM32 / CH32 / ESP32，裸机与 RTOS，外设驱动与低功耗。</p>
+        </li>
+        <li class="card">
+          <h3>硬件设计</h3>
+          <p>原理图与 PCB，Altium Designer / KiCad / 立创EDA。</p>
+        </li>
+        <li class="card">
+          <h3>上位机与工具</h3>
+          <p>串口 / CAN / Modbus 通信，实时曲线，数据导出。</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="projects" class="section">
+    <div class="wrap">
+      <h2>项目</h2>
+      <ul class="card-grid">
+        <li class="card">
+          <h3>项目名称一</h3>
+          <p>一句话说明这个项目解决什么问题，用了什么技术。</p>
+          <a class="card-link" href="#">查看详情</a>
+        </li>
+        <li class="card">
+          <h3>项目名称二</h3>
+          <p>一句话说明这个项目解决什么问题，用了什么技术。</p>
+          <a class="card-link" href="#">查看详情</a>
+        </li>
+        <li class="card">
+          <h3>项目名称三</h3>
+          <p>一句话说明这个项目解决什么问题，用了什么技术。</p>
+          <a class="card-link" href="#">查看详情</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contact" class="section section-soft">
+    <div class="wrap">
+      <h2>联系</h2>
+      <ul class="contact-list">
+        <li><span class="contact-label">邮箱</span><a href="mailto:you@example.com">you@example.com</a></li>
+        <li><span class="contact-label">GitHub</span><a href="https://github.com/">github.com/yourname</a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>&copy; <span id="year">2026</span> 你的名字</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

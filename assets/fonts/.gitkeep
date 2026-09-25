@@ -1,0 +1,7 @@
+# 字体资源
+
+需要自托管字体时放这里。中文字体文件很大，一般建议：
+
+- 优先用系统字体栈（css/style.css 里的 --font-sans 已覆盖常见平台）
+- 确实要自托管，用 woff2 格式并做子集化
+- 记得在 CSS 里写 @font-face 并加 font-display: swap
