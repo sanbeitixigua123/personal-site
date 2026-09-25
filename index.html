@@ -1,134 +1,563 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>个人网站</title>
-<meta name="description" content="个人主页与作品集">
+<meta name="color-scheme" content="dark light">
+
+<title>你的名字 — 嵌入式开发工程师</title>
+<meta name="description" content="嵌入式开发工程师个人主页：MCU 固件、PCB 硬件设计、上位机工具开发。STM32 / CH32 / ESP32 全栈式硬件开发。">
+<meta name="author" content="你的名字">
+<meta name="theme-color" content="#0A0B0D" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F6F7F8" media="(prefers-color-scheme: light)">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="你的名字 — 嵌入式开发工程师">
+<meta property="og:description" content="MCU 固件、PCB 硬件设计、上位机工具开发。">
+<meta property="og:url" content="https://sanbeitixigua123.github.io/">
+<meta property="og:image" content="assets/images/og-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://sanbeitixigua123.github.io/">
+
+<!-- 字体：非阻塞加载，失败自动回退系统字体，不影响首屏 -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist@5/index.css"
+      media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist@5/index.css"></noscript>
+
 <link rel="stylesheet" href="css/style.css">
+
 <script>
   (function () {
     var saved = null;
     try { saved = localStorage.getItem('theme'); } catch (e) {}
-    var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
     document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.classList.add('js');
   })();
 </script>
 </head>
 <body>
+
 <a class="skip-link" href="#main">跳到主要内容</a>
 
-<header class="site-header">
+<!-- 页面环境光：跟随鼠标的柔光，纯装饰 -->
+<div class="ambient" aria-hidden="true">
+  <span class="ambient__glow"></span>
+  <span class="ambient__grid"></span>
+</div>
+
+<!-- ============================================================== 顶栏 -->
+<header class="site-header" id="siteHeader">
   <div class="wrap header-inner">
-    <a class="brand" href="#">你的名字</a>
+    <a class="brand" href="#home" aria-label="回到首页">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <rect x="7" y="7" width="10" height="10" rx="2"/>
+          <path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/>
+        </svg>
+      </span>
+      <span class="brand__text">你的名字</span>
+    </a>
 
     <nav id="site-nav" class="site-nav" aria-label="主导航">
+      <a href="#home" class="is-active">首页</a>
       <a href="#about">关于</a>
       <a href="#skills">技能</a>
       <a href="#projects">项目</a>
       <a href="#contact">联系</a>
     </nav>
 
-    <button class="icon-btn nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-      <span class="icon-btn-label">菜单</span>
-    </button>
+    <div class="header-tools">
+      <button class="tool-btn cmd-open" type="button" aria-label="打开快捷面板">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>
+        </svg>
+        <span class="tool-btn__text">搜索</span>
+        <kbd class="kbd">Ctrl K</kbd>
+      </button>
 
-    <button class="icon-btn theme-toggle" type="button" aria-label="切换深浅色主题">
-      <span class="icon-btn-label">主题</span>
-    </button>
+      <button class="tool-btn theme-toggle" type="button" aria-label="切换深浅色主题" aria-pressed="false">
+        <svg class="ico ico--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/>
+        </svg>
+        <svg class="ico ico--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 14.2A8.2 8.2 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2z"/>
+        </svg>
+      </button>
+
+      <button class="tool-btn nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="展开导航菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16"/>
+        </svg>
+      </button>
+    </div>
   </div>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 </header>
 
 <main id="main">
 
-  <section class="hero">
+  <!-- ============================================================ 首屏 -->
+  <section id="home" class="section section--hero">
     <div class="wrap">
-      <p class="eyebrow">嵌入式开发 / 硬件 / 上位机</p>
-      <h1>一句话介绍你自己</h1>
-      <p class="lead">
-        这里写两三句概述：你做什么、擅长什么、现在在关注什么。
-        这段话是访客第一眼看到的内容，值得多花点时间打磨。
-      </p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="#projects">看看我的项目</a>
-        <a class="btn" href="#contact">联系我</a>
+      <div class="bento bento--hero">
+
+        <!-- 主卡片：名字 / 定位 / 按钮。改这里的内容 -->
+        <article class="cell cell--intro" data-reveal>
+          <p class="badge">
+            <span class="badge__dot" aria-hidden="true"></span>
+            目前在寻找新的硬件项目合作
+          </p>
+
+          <p class="eyebrow">你好，我是</p>
+          <h1 class="display">你的名字</h1>
+
+          <p class="role-line">
+            <span class="role-line__prefix" aria-hidden="true">&gt;_</span>
+            <span class="role-rotator" id="roleRotator" aria-live="polite">
+              <span class="role-rotator__item is-current">嵌入式软件工程师</span>
+              <span class="role-rotator__item">PCB 硬件设计</span>
+              <span class="role-rotator__item">上位机工具开发</span>
+            </span>
+            <span class="caret" aria-hidden="true"></span>
+          </p>
+
+          <p class="lead">
+            从寄存器配置到 PCB 走线，从裸机固件到上位机界面。
+            喜欢把想法一路做到能摸到、能跑起来、能量产的实物。
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn--primary" href="#projects">
+              看看我的项目
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h13M13 6l6 6-6 6"/>
+              </svg>
+            </a>
+            <a class="btn btn--ghost" href="#contact">聊聊合作</a>
+          </div>
+        </article>
+
+        <!-- 头像：把 assets/images/avatar.png 放好，然后换成 <img> 即可 -->
+        <article class="cell cell--avatar" data-reveal data-spotlight>
+          <div class="avatar" role="img" aria-label="头像占位图，可替换为个人照片">
+            <svg viewBox="0 0 200 200" aria-hidden="true">
+              <defs>
+                <linearGradient id="avGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="currentColor" stop-opacity="0.22"/>
+                  <stop offset="1" stop-color="currentColor" stop-opacity="0.03"/>
+                </linearGradient>
+              </defs>
+              <rect width="200" height="200" fill="url(#avGrad)"/>
+              <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+                <rect x="58" y="58" width="84" height="84" rx="14" opacity="0.85"/>
+                <rect x="78" y="78" width="44" height="44" rx="8" opacity="0.45"/>
+                <path d="M78 34v18M100 34v18M122 34v18M78 148v18M100 148v18M122 148v18" opacity="0.55"/>
+                <path d="M34 78h18M34 100h18M34 122h18M148 78h18M148 100h18M148 122h18" opacity="0.55"/>
+              </g>
+              <circle cx="100" cy="100" r="6" fill="currentColor"/>
+            </svg>
+          </div>
+          <p class="cell__caption">替换成你的照片</p>
+        </article>
+
+        <!-- 实时时钟 -->
+        <article class="cell cell--clock" data-reveal data-spotlight>
+          <p class="cell__label">本地时间</p>
+          <p class="clock" id="clock" aria-live="off">
+            <span class="clock__time">--:--:--</span>
+            <span class="clock__zone">UTC+8</span>
+          </p>
+          <p class="cell__caption">中国 · 随时可以聊技术</p>
+        </article>
+
+        <!-- 技术栈跑马灯 -->
+        <article class="cell cell--marquee" data-reveal>
+          <p class="cell__label">常用技术栈</p>
+          <div class="marquee" data-marquee>
+            <div class="marquee__track">
+              <span class="chip">STM32</span><span class="chip">CH32V</span><span class="chip">ESP32</span>
+              <span class="chip">FreeRTOS</span><span class="chip">裸机开发</span><span class="chip">低功耗</span>
+              <span class="chip">Altium Designer</span><span class="chip">KiCad</span><span class="chip">立创EDA</span>
+              <span class="chip">UART / SPI / I2C</span><span class="chip">CAN</span><span class="chip">Modbus</span>
+              <span class="chip">BLE</span><span class="chip">MQTT</span>
+              <span class="chip">C</span><span class="chip">C++</span><span class="chip">Python</span><span class="chip">Verilog</span>
+              <span class="chip">Keil MDK</span><span class="chip">ESP-IDF</span><span class="chip">MounRiver</span>
+              <span class="chip">Git</span><span class="chip">Linux</span>
+            </div>
+          </div>
+        </article>
+
       </div>
     </div>
   </section>
 
+  <!-- ============================================================ 关于 -->
   <section id="about" class="section">
     <div class="wrap">
-      <h2>关于</h2>
-      <p>
-        写一段自我介绍。可以包含：目前在做什么、过往经历、
-        技术兴趣方向，以及你希望别人怎么和你合作。
-      </p>
-      <p>
-        段落不要写太长，两到三段就够了。
-      </p>
+      <header class="section-head" data-reveal>
+        <p class="section-head__index">01</p>
+        <h2 class="section-head__title">关于我</h2>
+        <p class="section-head__desc">一个把硬件当手艺做的工程师。</p>
+      </header>
+
+      <div class="bento bento--about">
+        <article class="cell cell--about-text" data-reveal data-spotlight>
+          <p>
+            我做嵌入式开发，工作范围覆盖 <strong>MCU 固件</strong>、<strong>PCB 硬件设计</strong>
+            和 <strong>配套上位机工具</strong> 三段。习惯从需求一路跟到打样、调试、量产，
+            不用在软硬件之间反复交接。
+          </p>
+          <p>
+            固件侧主要用 STM32、沁恒 CH32（RISC-V）和 ESP32 三套平台，裸机和 RTOS 都做，
+            重点是外设驱动、通信协议栈和低功耗优化。硬件侧画原理图和 PCB，
+            工具链在 Altium Designer、KiCad、立创EDA 之间按项目切换。
+          </p>
+          <p>
+            需要的话也会写上位机：串口 / CAN 调试工具、实时数据曲线、测试数据导出，
+            把调试过程变得省事一点。
+          </p>
+
+          <ul class="focus-list">
+            <li>
+              <span class="focus-list__key">现在关注</span>
+              <span>RISC-V 平台的固件生态、低功耗节点设计</span>
+            </li>
+            <li>
+              <span class="focus-list__key">可以合作</span>
+              <span>从方案到打样的完整硬件项目、存量产品的固件维护</span>
+            </li>
+            <li>
+              <span class="focus-list__key">工作方式</span>
+              <span>先跑通最小系统，再逐步加功能，每一步都可验证</span>
+            </li>
+          </ul>
+        </article>
+
+        <!-- 数据卡片：数字改成你自己的，data-count 是滚动到的目标值 -->
+        <div class="cell-stack">
+          <article class="cell cell--stat" data-reveal data-spotlight>
+            <p class="stat__label">开发年限</p>
+            <p class="stat__value"><span data-count="5">0</span><span class="stat__unit">年+</span></p>
+          </article>
+          <article class="cell cell--stat" data-reveal data-spotlight>
+            <p class="stat__label">主控平台</p>
+            <p class="stat__value"><span data-count="3">0</span><span class="stat__unit">套</span></p>
+          </article>
+          <article class="cell cell--stat" data-reveal data-spotlight>
+            <p class="stat__label">完成项目</p>
+            <p class="stat__value"><span data-count="20">0</span><span class="stat__unit">个+</span></p>
+          </article>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section id="skills" class="section section-soft">
+  <!-- ============================================================ 技能 -->
+  <section id="skills" class="section">
     <div class="wrap">
-      <h2>技能</h2>
-      <ul class="card-grid">
-        <li class="card">
+      <header class="section-head" data-reveal>
+        <p class="section-head__index">02</p>
+        <h2 class="section-head__title">技能栈</h2>
+        <p class="section-head__desc">从芯片引脚到屏幕像素，这几块是我最熟的。</p>
+      </header>
+
+      <div class="bento bento--skills">
+
+        <article class="cell cell--skill cell--span-4" data-reveal data-spotlight>
+          <span class="cell__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="6" width="12" height="12" rx="2.5"/>
+              <path d="M9.5 2.5v3.5M14.5 2.5v3.5M9.5 18v3.5M14.5 18v3.5M2.5 9.5H6M2.5 14.5H6M18 9.5h3.5M18 14.5h3.5"/>
+            </svg>
+          </span>
           <h3>MCU 与固件</h3>
-          <p>STM32 / CH32 / ESP32，裸机与 RTOS，外设驱动与低功耗。</p>
-        </li>
-        <li class="card">
+          <p>
+            STM32（F1/F4/H7 系列）、沁恒 CH32（RISC-V 与 M3）、ESP32 三套平台。
+            裸机与 FreeRTOS 双路线，熟悉外设驱动、中断与 DMA、时钟树配置、Flash 分区与 OTA。
+          </p>
+          <ul class="tag-row">
+            <li>STM32</li><li>CH32V</li><li>ESP32</li><li>FreeRTOS</li><li>低功耗</li><li>OTA</li>
+          </ul>
+        </article>
+
+        <article class="cell cell--skill cell--span-2" data-reveal data-spotlight>
+          <span class="cell__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2.5"/>
+              <path d="M3 9h18M9 9v12"/><circle cx="6" cy="6" r="0.9" fill="currentColor"/>
+            </svg>
+          </span>
           <h3>硬件设计</h3>
-          <p>原理图与 PCB，Altium Designer / KiCad / 立创EDA。</p>
-        </li>
-        <li class="card">
-          <h3>上位机与工具</h3>
-          <p>串口 / CAN / Modbus 通信，实时曲线，数据导出。</p>
-        </li>
-      </ul>
+          <p>原理图、PCB Layout、器件选型与 BOM 整理。从两层板到四层板，兼顾成本与 EMC。</p>
+          <ul class="tag-row">
+            <li>Altium</li><li>KiCad</li><li>立创EDA</li>
+          </ul>
+        </article>
+
+        <article class="cell cell--skill cell--span-2" data-reveal data-spotlight>
+          <span class="cell__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 12a8 8 0 0 1 8-8"/>
+              <path d="M20 12a8 8 0 0 1-8 8"/>
+              <path d="M4 12h4l2-3 3 7 2-4h5"/>
+            </svg>
+          </span>
+          <h3>通信与协议</h3>
+          <p>板级总线到无线链路：串口、CAN、Modbus，以及 BLE / Wi-Fi 的联网方案。</p>
+          <ul class="tag-row">
+            <li>CAN</li><li>Modbus</li><li>BLE</li><li>MQTT</li>
+          </ul>
+        </article>
+
+        <article class="cell cell--skill cell--span-4" data-reveal data-spotlight>
+          <span class="cell__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.5" y="4" width="19" height="13" rx="2.5"/>
+              <path d="M8 20.5h8M12 17v3.5"/>
+              <path d="M6.5 12.5l2.5-2.5 2 2 2.5-3 2 2"/>
+            </svg>
+          </span>
+          <h3>上位机与调试工具</h3>
+          <p>
+            用 Python 或 C# 写串口 / CAN 调试工具，做实时数据曲线、参数下发、
+            日志解析与 CSV / Excel 导出，把重复的调试动作自动化掉。
+          </p>
+          <ul class="tag-row">
+            <li>Python</li><li>C#</li><li>PySerial</li><li>实时曲线</li><li>数据导出</li>
+          </ul>
+        </article>
+
+        <article class="cell cell--skill cell--span-3" data-reveal data-spotlight>
+          <span class="cell__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a4.5 4.5 0 0 1 6 6L9 24H3v-6z" transform="translate(0 -3)"/>
+              <circle cx="8" cy="14" r="1.6"/>
+            </svg>
+          </span>
+          <h3>工具链与流程</h3>
+          <p>Keil MDK、ESP-IDF、MounRiver Studio、Gowin / Intel FPGA 工具链；版本管理用 Git，日常在 Linux 与 Windows 之间切换。</p>
+          <ul class="tag-row">
+            <li>Keil MDK</li><li>ESP-IDF</li><li>MounRiver</li><li>Git</li><li>Linux</li>
+          </ul>
+        </article>
+
+        <article class="cell cell--skill cell--span-3" data-reveal data-spotlight>
+          <span class="cell__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 7.5L4.5 12 9 16.5M15 7.5L19.5 12 15 16.5"/>
+            </svg>
+          </span>
+          <h3>语言与基础</h3>
+          <p>主力 C 与 C++（嵌入式方向），脚本和上位机用 Python；能读时序图与数据手册，能写简单的 Verilog。</p>
+          <ul class="tag-row">
+            <li>C</li><li>C++</li><li>Python</li><li>Verilog</li>
+          </ul>
+        </article>
+
+      </div>
     </div>
   </section>
 
+  <!-- ============================================================ 项目 -->
   <section id="projects" class="section">
     <div class="wrap">
-      <h2>项目</h2>
-      <ul class="card-grid">
-        <li class="card">
-          <h3>项目名称一</h3>
-          <p>一句话说明这个项目解决什么问题，用了什么技术。</p>
-          <a class="card-link" href="#">查看详情</a>
-        </li>
-        <li class="card">
+      <header class="section-head" data-reveal>
+        <p class="section-head__index">03</p>
+        <h2 class="section-head__title">项目</h2>
+        <p class="section-head__desc">挑了几个能说清楚「解决了什么问题」的。</p>
+      </header>
+
+      <div class="bento bento--projects">
+
+        <!-- 重点项目：改成你最有代表性的那个 -->
+        <article class="cell cell--project cell--featured" data-reveal data-spotlight>
+          <div class="project__body">
+            <p class="project__tag">重点项目</p>
+            <h3>项目名称一</h3>
+            <p class="project__desc">
+              一句话说清楚它解决什么问题。比如：一套基于 STM32 的多路传感器采集终端，
+              用 Modbus 汇总数据并上传，替代了原来人工抄表的方式。
+            </p>
+            <ul class="tag-row">
+              <li>STM32</li><li>Modbus</li><li>FreeRTOS</li><li>四层板</li>
+            </ul>
+            <a class="link-arrow" href="#">
+              查看详情
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h13M13 6l6 6-6 6"/>
+              </svg>
+            </a>
+          </div>
+          <div class="project__visual" aria-hidden="true">
+            <svg viewBox="0 0 240 200" fill="none">
+              <rect x="30" y="46" width="180" height="108" rx="10" stroke="currentColor" stroke-width="1.6" opacity="0.5"/>
+              <path d="M62 100h34l10-18 14 36 12-24 10 12h36" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+              <path d="M30 74h-14M30 100h-14M30 126h-14M210 74h14M210 100h14M210 126h14" stroke="currentColor" stroke-width="1.6" opacity="0.35"/>
+              <circle cx="62" cy="100" r="3.4" fill="currentColor"/>
+              <circle cx="178" cy="106" r="3.4" fill="currentColor" opacity="0.55"/>
+            </svg>
+          </div>
+        </article>
+
+        <article class="cell cell--project" data-reveal data-spotlight>
+          <p class="project__tag">项目</p>
           <h3>项目名称二</h3>
-          <p>一句话说明这个项目解决什么问题，用了什么技术。</p>
-          <a class="card-link" href="#">查看详情</a>
-        </li>
-        <li class="card">
+          <p class="project__desc">一句话说明它做了什么、你负责哪部分。</p>
+          <ul class="tag-row"><li>ESP32</li><li>BLE</li><li>低功耗</li></ul>
+        </article>
+
+        <article class="cell cell--project" data-reveal data-spotlight>
+          <p class="project__tag">项目</p>
           <h3>项目名称三</h3>
-          <p>一句话说明这个项目解决什么问题，用了什么技术。</p>
-          <a class="card-link" href="#">查看详情</a>
-        </li>
-      </ul>
+          <p class="project__desc">一句话说明它做了什么、你负责哪部分。</p>
+          <ul class="tag-row"><li>CH32V</li><li>RISC-V</li><li>PCB</li></ul>
+        </article>
+
+        <a class="cell cell--more" href="https://github.com/sanbeitixigua123" data-reveal>
+          <span>
+            <span class="cell__label">还有更多</span>
+            <strong>去 GitHub 看全部仓库</strong>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h13M13 6l6 6-6 6"/>
+          </svg>
+        </a>
+
+      </div>
     </div>
   </section>
 
-  <section id="contact" class="section section-soft">
+  <!-- ============================================================ 联系 -->
+  <section id="contact" class="section">
     <div class="wrap">
-      <h2>联系</h2>
-      <ul class="contact-list">
-        <li><span class="contact-label">邮箱</span><a href="mailto:you@example.com">you@example.com</a></li>
-        <li><span class="contact-label">GitHub</span><a href="https://github.com/">github.com/yourname</a></li>
-      </ul>
+      <header class="section-head" data-reveal>
+        <p class="section-head__index">04</p>
+        <h2 class="section-head__title">联系</h2>
+        <p class="section-head__desc">有硬件项目要落地，或者只是想聊聊技术，都欢迎。</p>
+      </header>
+
+      <div class="bento bento--contact">
+
+        <article class="cell cell--cta" data-reveal data-spotlight>
+          <h3 class="cta__title">聊聊你的项目</h3>
+          <p class="cta__desc">
+            说清楚需求和使用场景，我一般在 24 小时内回。硬件选型、固件方案、
+            或者现有产品遇到问题，都可以直接问。
+          </p>
+          <div class="cta__actions">
+            <a class="btn btn--primary" id="mailBtn" href="mailto:you@example.com">
+              发邮件给我
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/>
+              </svg>
+            </a>
+            <button class="btn btn--ghost copy-mail" type="button" data-copy="you@example.com">
+              复制邮箱
+            </button>
+          </div>
+          <p class="cta__note">邮箱：<code>you@example.com</code></p>
+        </article>
+
+        <div class="cell-stack">
+          <a class="cell cell--link" href="https://github.com/sanbeitixigua123" data-reveal data-spotlight>
+            <span class="cell__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03a9.5 9.5 0 0 1 5 0c1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/>
+              </svg>
+            </span>
+            <span class="link__body">
+              <strong>GitHub</strong>
+              <span>@sanbeitixigua123</span>
+            </span>
+            <svg class="link__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 17L17 7M9 7h8v8"/>
+            </svg>
+          </a>
+
+          <a class="cell cell--link" href="mailto:you@example.com" data-reveal data-spotlight>
+            <span class="cell__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 7l8.5 6 8.5-6"/>
+              </svg>
+            </span>
+            <span class="link__body">
+              <strong>邮箱</strong>
+              <span>you@example.com</span>
+            </span>
+            <svg class="link__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 17L17 7M9 7h8v8"/>
+            </svg>
+          </a>
+
+          <button class="cell cell--link" type="button" data-copy="你的微信号" data-reveal data-spotlight>
+            <span class="cell__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 5.5h13v9H9l-5 4z"/><path d="M17 9h3v8.5l-3.5-2.5H11"/>
+              </svg>
+            </span>
+            <span class="link__body">
+              <strong>微信</strong>
+              <span>点一下复制微信号</span>
+            </span>
+            <svg class="link__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/>
+            </svg>
+          </button>
+        </div>
+
+      </div>
     </div>
   </section>
 
 </main>
 
+<!-- ============================================================== 页脚 -->
 <footer class="site-footer">
-  <div class="wrap">
-    <p>&copy; <span id="year">2026</span> 你的名字</p>
+  <div class="wrap footer-inner">
+    <p class="footer__copy">
+      &copy; <span id="year">2026</span> 你的名字 · 用 HTML / CSS / JS 手写
+    </p>
+    <p class="footer__meta">
+      <span class="footer__dot" aria-hidden="true"></span>
+      <span id="footerStatus">静态站点，托管在 GitHub Pages</span>
+    </p>
   </div>
 </footer>
+
+<!-- 回到顶部 -->
+<button class="to-top" id="toTop" type="button" aria-label="回到顶部">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19V5M6 11l6-6 6 6"/>
+  </svg>
+</button>
+
+<!-- 快捷面板：Ctrl / Cmd + K 唤起 -->
+<div class="palette" id="palette" role="dialog" aria-modal="true" aria-labelledby="paletteTitle" hidden>
+  <div class="palette__backdrop" data-palette-close></div>
+  <div class="palette__panel" role="document">
+    <h2 class="sr-only" id="paletteTitle">快捷导航面板</h2>
+    <div class="palette__search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>
+      </svg>
+      <input id="paletteInput" type="text" placeholder="输入关键字，或直接选一项…" autocomplete="off" spellcheck="false" aria-label="搜索命令">
+      <kbd class="kbd">Esc</kbd>
+    </div>
+    <ul class="palette__list" id="paletteList" role="listbox" aria-label="命令列表"></ul>
+    <p class="palette__hint">
+      <span><kbd class="kbd">↑</kbd><kbd class="kbd">↓</kbd> 选择</span>
+      <span><kbd class="kbd">Enter</kbd> 执行</span>
+      <span><kbd class="kbd">Esc</kbd> 关闭</span>
+    </p>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="js/main.js"></script>
 </body>
