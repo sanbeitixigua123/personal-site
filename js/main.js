@@ -74,6 +74,7 @@
     navToggle.addEventListener('click', function () {
       var open = nav.classList.toggle('is-open');
       navToggle.setAttribute('aria-expanded', String(open));
+      navToggle.setAttribute('aria-label', open ? '收起导航菜单' : '展开导航菜单');
     });
 
     nav.addEventListener('click', function (e) {
