@@ -191,9 +191,9 @@ code, kbd, .mono { font-family: var(--font-mono); }
 }
 
 .display {
-  font-size: clamp(38px, 6.2vw, 66px);
+  font-size: clamp(30px, 4.4vw, 52px);
   font-weight: 600;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
   line-height: 1.06;
   margin: 6px 0 0;
   /* 终点色标刻意超过 100%，只取渐变的前半段，让名字保持实心又有微弱层次 */
@@ -689,9 +689,18 @@ code, kbd, .mono { font-family: var(--font-mono); }
   grid-column: span 4;
   grid-row: span 2;
   padding: 34px;
-  gap: 14px;
+  gap: 16px;
   justify-content: center;
 }
+
+/* 头像与名字并排，不再单独占一张卡 */
+.intro__head {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.intro__id { min-width: 0; }
 
 .role-line {
   display: flex;
@@ -741,21 +750,13 @@ code, kbd, .mono { font-family: var(--font-mono); }
   margin-top: 12px;
 }
 
-.cell--avatar {
-  grid-column: span 2;
-  padding: 18px;
-  justify-content: center;
-  align-items: center;
-}
-
 .avatar {
-  position: relative;
-  width: min(100%, 196px);
+  flex: none;
+  width: clamp(62px, 6.4vw, 92px);
   aspect-ratio: 1 / 1;
-  border-radius: 16px;
+  border-radius: 22px;
   overflow: hidden;
   background: var(--surface-2);
-  color: var(--accent);
   display: grid;
   place-items: center;
 }
@@ -766,17 +767,47 @@ code, kbd, .mono { font-family: var(--font-mono); }
   object-fit: cover;
 }
 
-.cell--avatar .cell__caption {
-  text-align: center;
-  font-size: 12px;
-  margin-top: 10px;
-}
-
 .cell--clock {
   grid-column: span 2;
-  justify-content: center;
-  gap: 6px;
+  grid-row: span 2;
+  gap: 12px;
 }
+
+/* 装饰性信号波形，填住卡片中段的空白，顺带呼应嵌入式主题 */
+.clock__trace {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--accent);
+}
+
+/* 固定高度 + 横向拉伸：等比缩放会让宽卡片里的波形长得过高 */
+.clock__trace svg { width: 100%; height: 46px; overflow: visible; }
+
+.clock__trace path {
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* 整条波形常显，只让一小段亮起来扫过 */
+.trace__base { opacity: 0.2; }
+
+.trace__sweep {
+  stroke-width: 2;
+  stroke-dasharray: 34 400;
+  animation: trace-sweep 5.5s linear infinite;
+}
+
+@keyframes trace-sweep {
+  from { stroke-dashoffset: 430; }
+  to   { stroke-dashoffset: 0; }
+}
+
+.cell--clock .cell__caption { margin-top: auto; }
 
 .clock {
   display: flex;
@@ -1262,7 +1293,6 @@ button.cell--link { border: 1px solid var(--border); }
   .bento { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
   .cell--intro,
-  .cell--avatar,
   .cell--clock,
   .cell--marquee,
   .cell--about-text,
@@ -1274,8 +1304,9 @@ button.cell--link { border: 1px solid var(--border); }
   .cell--span-3,
   .cell--span-4 { grid-column: span 4; }
 
-  .cell--avatar { align-items: center; }
-  .cell--clock  { align-items: flex-start; }
+  .cell--clock { align-items: flex-start; grid-row: auto; }
+
+  .cell--intro { grid-row: auto; }
 
   .cell-stack { grid-template-rows: none; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
@@ -1323,6 +1354,9 @@ button.cell--link { border: 1px solid var(--border); }
 
   .cell-stack { grid-template-columns: 1fr; }
 
+  .intro__head { gap: 15px; }
+  .avatar { border-radius: 16px; }
+
   .role-rotator__item { white-space: normal; }
 
   .display { letter-spacing: -0.03em; }
@@ -1352,6 +1386,9 @@ button.cell--link { border: 1px solid var(--border); }
   .ambient__glow { display: none; }
 
   .marquee__track { animation: none; }
+
+  .trace__sweep { display: none; }
+  .trace__base  { opacity: 0.45; }
 }
 
 @media print {

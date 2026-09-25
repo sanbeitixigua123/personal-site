@@ -63,17 +63,25 @@ npx serve .
 所有需要替换的地方都在 `index.html` 里，按顺序改这几处：
 
 1. **`<head>`** — `<title>`、`<meta name="description">`、`og:*` 里的 URL 和封面图
-2. **首屏 `.cell--intro`** — 状态徽章、`<h1>` 名字、三个职位轮播文案、简介、按钮链接
-3. **`.cell--avatar`** — 换成 `assets/images/avatar.jpg` 即可，
-   建议用正方形图片（当前是 640×640），会自动裁切填充
-4. **`#about`** — 三段自我介绍、三条「现在关注 / 可以合作 / 工作方式」
-5. **统计数字** — 三处 `data-count="5|3|20"`，改数字即可，滚动时会自动缓动
-6. **`#skills`** — 六张技能卡的文字和标签
-7. **`#projects`** — 项目名称、描述、技术标签、详情链接。
+2. **首屏 `.cell--intro`** — 头像、`<h1>` 名字、三个职位轮播文案、简介、按钮链接。
+   头像和名字在同一个 `.intro__head` 里并排，头像尺寸由 `css/style.css` 的
+   `.avatar { width: clamp(62px, 6.4vw, 92px) }` 控制
+3. **头像** — `assets/images/avatar.png`，512×512 透明底。
+   换成自己的照片时保持正方形即可，会自动裁切填充。
+   想用白底原图就把 `index.html` 里的 `avatar.png` 改成 `avatar.jpg`
+4. **首屏右侧 `.cell--clock`** — 本地时间、状态徽章、底部说明。
+   中间的信号波形是纯装饰（`.clock__trace`），不想要直接删掉那个 `div`
+5. **`#about`** — 三段自我介绍、三条「现在关注 / 可以合作 / 工作方式」
+6. **统计数字** — 三处 `data-count="5|3|20"`，改数字即可，滚动时会自动缓动
+7. **`#skills`** — 六张技能卡的文字和标签
+8. **`#projects`** — 项目名称、描述、技术标签、详情链接。
    重点项目是 `.cell--featured`，另外两个是普通 `.cell`
-8. **`#contact`** — 邮箱（`mailto:`、`data-copy`、显示文本三处要一起改）、
+9. **`#contact`** — 邮箱（`mailto:`、`data-copy`、显示文本三处要一起改）、
    微信号（`data-copy` 与显示文本）、GitHub 链接
-9. **`js/main.js`** — 快捷面板里 GitHub 地址和邮箱命令，搜索 `sanbeitixigua123` 和 `you@example.com`
+10. **`js/main.js`** — 快捷面板里的 GitHub 地址，搜索 `sanbeitixigua123`
+
+> 注意：`index.html` 里如果出现 `data-page-node-id` 属性，那是编辑器留下的痕迹。
+> 提交前跑一下 `python .workbuddy-ai/strip-nodes.py` 清掉。
 
 ## 主题色怎么换
 

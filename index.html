@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark light">
 
-<title>王景浩 — 嵌入式开发工程师</title>
-<meta name="description" content="王景浩，嵌入式开发工程师。MCU 固件、PCB 硬件设计、上位机工具开发，覆盖 STM32 / CH32 / ESP32 三套平台。">
-<meta name="author" content="王景浩">
+<title>三倍体西瓜 — 嵌入式开发工程师</title>
+<meta name="description" content="三倍体西瓜，嵌入式开发工程师。MCU 固件、PCB 硬件设计、上位机工具开发，覆盖 STM32 / CH32 / ESP32 三套平台。">
+<meta name="author" content="三倍体西瓜">
 <meta name="theme-color" content="#0A0B0D" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#F6F7F8" media="(prefers-color-scheme: light)">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="王景浩 — 嵌入式开发工程师">
+<meta property="og:title" content="三倍体西瓜 — 嵌入式开发工程师">
 <meta property="og:description" content="MCU 固件、PCB 硬件设计、上位机工具开发。">
 <meta property="og:url" content="https://sanbeitixigua123.github.io/personal-site/">
 <meta property="og:image" content="assets/images/og-cover.png">
@@ -59,7 +59,7 @@
           <path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/>
         </svg>
       </span>
-      <span class="brand__text">王景浩</span>
+      <span class="brand__text">三倍体西瓜</span>
     </a>
 
     <nav id="site-nav" class="site-nav" aria-label="主导航">
@@ -106,15 +106,18 @@
     <div class="wrap">
       <div class="bento bento--hero">
 
-        <!-- 主卡片：名字 / 定位 / 按钮。改这里的内容 -->
+        <!-- 主卡片：头像 + 名字 + 定位 + 按钮。改这里的内容 -->
         <article class="cell cell--intro" data-reveal>
-          <p class="badge">
-            <span class="badge__dot" aria-hidden="true"></span>
-            开放技术交流与项目合作
-          </p>
-
-          <p class="eyebrow">你好，我是</p>
-          <h1 class="display">王景浩</h1>
+          <div class="intro__head">
+            <div class="avatar">
+              <img src="assets/images/avatar.png" alt="三倍体西瓜的头像"
+                   width="512" height="512" decoding="async">
+            </div>
+            <div class="intro__id">
+              <p class="eyebrow">你好，我是</p>
+              <h1 class="display">三倍体西瓜</h1>
+            </div>
+          </div>
 
           <p class="role-line">
             <span class="role-line__prefix" aria-hidden="true">&gt;_</span>
@@ -142,21 +145,23 @@
           </div>
         </article>
 
-        <!-- 头像：把 assets/images/avatar.png 放好，然后换成 <img> 即可 -->
-        <article class="cell cell--avatar" data-reveal data-spotlight>
-          <div class="avatar">
-            <img src="assets/images/avatar.png" alt="王景浩的头像"
-                 width="640" height="640" decoding="async">
-          </div>
-        </article>
-
-        <!-- 实时时钟 -->
+        <!-- 现在：本地时间 + 状态 -->
         <article class="cell cell--clock" data-reveal data-spotlight>
           <p class="cell__label">本地时间</p>
           <p class="clock" id="clock" aria-live="off">
             <span class="clock__time">--:--:--</span>
             <span class="clock__zone">UTC+8</span>
           </p>
+          <p class="badge">
+            <span class="badge__dot" aria-hidden="true"></span>
+            开放技术交流与项目合作
+          </p>
+          <div class="clock__trace" aria-hidden="true">
+            <svg viewBox="0 0 200 40" preserveAspectRatio="none" fill="none">
+              <path class="trace__base" d="M0 28h14l8-16 8 22 8-14 8 8h28l8-18 8 26 8-16 8 8h34l8-14 8 20 8-12 8 6h14"/>
+              <path class="trace__sweep" d="M0 28h14l8-16 8 22 8-14 8 8h28l8-18 8 26 8-16 8 8h34l8-14 8 20 8-12 8 6h14"/>
+            </svg>
+          </div>
           <p class="cell__caption">中国 · 随时可以聊技术</p>
         </article>
 
@@ -505,7 +510,7 @@
 <footer class="site-footer">
   <div class="wrap footer-inner">
     <p class="footer__copy">
-      &copy; <span id="year">2026</span> 王景浩 · 用 HTML / CSS / JS 手写
+      &copy; <span id="year">2026</span> 三倍体西瓜 · 用 HTML / CSS / JS 手写
     </p>
     <p class="footer__meta">
       <span class="footer__dot" aria-hidden="true"></span>
