@@ -64,15 +64,15 @@ npx serve .
 
 1. **`<head>`** — `<title>`、`<meta name="description">`、`og:*` 里的 URL 和封面图
 2. **首屏 `.cell--intro`** — 状态徽章、`<h1>` 名字、三个职位轮播文案、简介、按钮链接
-3. **`.cell--avatar`** — 目前是芯片占位图。把照片放进 `assets/images/avatar.png`，
-   然后把里面的 `<svg>` 整段换成 `<img src="assets/images/avatar.png" alt="头像">`
+3. **`.cell--avatar`** — 换成 `assets/images/avatar.jpg` 即可，
+   建议用正方形图片（当前是 640×640），会自动裁切填充
 4. **`#about`** — 三段自我介绍、三条「现在关注 / 可以合作 / 工作方式」
 5. **统计数字** — 三处 `data-count="5|3|20"`，改数字即可，滚动时会自动缓动
 6. **`#skills`** — 六张技能卡的文字和标签
 7. **`#projects`** — 项目名称、描述、技术标签、详情链接。
    重点项目是 `.cell--featured`，另外两个是普通 `.cell`
 8. **`#contact`** — 邮箱（`mailto:`、`data-copy`、显示文本三处要一起改）、
-   微信号（`data-copy="你的微信号"`）、GitHub 链接
+   微信号（`data-copy` 与显示文本）、GitHub 链接
 9. **`js/main.js`** — 快捷面板里 GitHub 地址和邮箱命令，搜索 `sanbeitixigua123` 和 `you@example.com`
 
 ## 主题色怎么换
@@ -100,18 +100,25 @@ npx serve .
 
 ## 部署到 GitHub Pages
 
-1. 推到 GitHub 仓库
-2. 仓库 Settings → Pages → Source 选 `Deploy from a branch`
-3. 分支选 `main`，目录选 `/ (root)`，保存
-4. 等一两分钟，访问 `https://<用户名>.github.io/<仓库名>/`
+仓库：`sanbeitixigua123/personal-site`
+上线地址：`https://sanbeitixigua123.github.io/personal-site/`
 
-如果仓库名就叫 `<用户名>.github.io`，访问地址会直接是
-`https://<用户名>.github.io/`，没有子路径，最干净。
+首次部署需要在仓库里开一次 Pages：
+
+1. 仓库 Settings → Pages
+2. Source 选 `Deploy from a branch`
+3. 分支选 `main`，目录选 `/ (root)`，保存
+4. 等一两分钟访问上面的地址
+
+之后每次 `git push` 到 `main`，站点会自动重新发布。
 
 ## 待办
 
-- [ ] 替换所有占位文案（名字、邮箱、微信号、项目）
-- [ ] 放一张头像到 `assets/images/avatar.png` 并替换占位图
-- [ ] 做一张 `assets/images/og-cover.png`（建议 1200×630）用于分享预览
+- [x] 替换占位文案（名字、邮箱、微信号）
+- [x] 接入头像 `assets/images/avatar.jpg`
+- [x] 生成分享封面 `assets/images/og-cover.png`（1200×630）
+- [ ] **替换三个项目的名称与描述** —— 目前仍是占位内容
+- [ ] **核对统计数字** —— 开发年限 5 年 / 主控平台 3 套 / 完成项目 20 个
+- [ ] **核对首屏状态徽章** —— 目前写的是「开放技术交流与项目合作」
 - [ ] 补充项目详情页，或改成从 JSON 渲染
 - [ ] 视需要加「工作经历时间线」区块

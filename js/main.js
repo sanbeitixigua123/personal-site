@@ -259,7 +259,12 @@
 
     if (roles.length > 1 && !reduceMotion) {
       setInterval(function () {
-        roles[roleIndex].classList.remove('is-current');
+        var outgoing = roles[roleIndex];
+        outgoing.classList.remove('is-current');
+        outgoing.classList.add('is-leaving');
+        /* 等退场动画跑完再摘掉，避免它回落到进场初始位置造成重影 */
+        setTimeout(function () { outgoing.classList.remove('is-leaving'); }, 520);
+
         roleIndex = (roleIndex + 1) % roles.length;
         roles[roleIndex].classList.add('is-current');
       }, 2600);
