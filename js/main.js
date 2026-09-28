@@ -32,12 +32,22 @@
   /* -------------------------------------------------------- 深浅色主题 */
 
   var themeToggle = $('.theme-toggle');
+  var themeAnimTimer = null;
 
   function currentTheme() {
     return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
   }
 
-  function applyTheme(theme) {
+  function applyTheme(theme, animate) {
+    /* 只在用户主动切换时挂过渡类：首屏/跟随系统切换不加，否则会闪一下 */
+    if (animate && !reduceMotion) {
+      root.classList.add('theme-anim');
+      clearTimeout(themeAnimTimer);
+      themeAnimTimer = setTimeout(function () {
+        root.classList.remove('theme-anim');
+      }, 480);
+    }
+
     root.setAttribute('data-theme', theme);
     try { localStorage.setItem('theme', theme); } catch (e) {}
     if (themeToggle) themeToggle.setAttribute('aria-pressed', String(theme === 'light'));
@@ -47,7 +57,7 @@
 
   if (themeToggle) {
     themeToggle.addEventListener('click', function () {
-      applyTheme(currentTheme() === 'light' ? 'dark' : 'light');
+      applyTheme(currentTheme() === 'light' ? 'dark' : 'light', true);
     });
   }
 
@@ -352,6 +362,8 @@
   var palette = $('#palette');
   var paletteInput = $('#paletteInput');
   var paletteList = $('#paletteList');
+  var palettePanel = palette ? $('.palette__panel', palette) : null;
+  var paletteOpener = null;   /* 记住是谁打开的面板，关闭时把焦点还回去 */
 
   var ICONS = {
     jump:   '<path d="M5 12h13M13 6l6 6-6 6"/>',
@@ -374,7 +386,7 @@
     { label: '项目',       hint: '跳转', icon: 'jump',   run: function () { goTo('#projects'); } },
     { label: '联系方式',   hint: '跳转', icon: 'jump',   run: function () { goTo('#contact'); } },
     { label: '切换深浅色主题', hint: '外观', icon: 'theme',
-      run: function () { applyTheme(currentTheme() === 'light' ? 'dark' : 'light'); } },
+      run: function () { applyTheme(currentTheme() === 'light' ? 'dark' : 'light', true); } },
     { label: '复制邮箱地址', hint: '复制', icon: 'copy',
       run: function () {
         var mail = $('.copy-mail');
@@ -431,8 +443,40 @@
     if (cmd) setTimeout(cmd.run, 60);
   }
 
+  /* 面板声明了 aria-modal="true"，就得兑现模态行为：Tab 只在面板内循环。
+     没有这个，键盘用户 Tab 几下就跑到面板背后的页面上去了。 */
+  var FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), ' +
+                  'select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  function trapTab(e) {
+    if (e.key !== 'Tab' || !palettePanel) return;
+    var items = $$(FOCUSABLE, palettePanel).filter(function (el) {
+      return el.offsetParent !== null || el === document.activeElement;
+    });
+    if (!items.length) return;
+
+    var first = items[0];
+    var last = items[items.length - 1];
+    var active = document.activeElement;
+
+    /* 焦点已经在面板外（比如用鼠标点了背景），强行拉回第一个 */
+    if (!palettePanel.contains(active)) {
+      e.preventDefault();
+      first.focus();
+      return;
+    }
+    if (e.shiftKey && active === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && active === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
   function openPalette() {
     if (!palette) return;
+    paletteOpener = document.activeElement;
     palette.hidden = false;
     cursor = 0;
     filtered = commands.slice();
@@ -441,11 +485,18 @@
       paletteInput.focus();
     }
     renderPalette();
+    document.addEventListener('keydown', trapTab, true);
   }
 
   function closePalette() {
     if (!palette || palette.hidden) return;
     palette.hidden = true;
+    document.removeEventListener('keydown', trapTab, true);
+    /* 焦点归位，否则焦点会留在已隐藏的节点上，键盘用户直接迷失 */
+    if (paletteOpener && document.contains(paletteOpener)) {
+      paletteOpener.focus();
+    }
+    paletteOpener = null;
   }
 
   if (palette) {

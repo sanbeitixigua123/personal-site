@@ -84,18 +84,20 @@
 
   --text:          #0F1216;
   --text-2:        #58606B;
-  --text-3:        #868E98;
+  --text-3:        #6E7681;   /* 对比度 4.61:1，原 #868E98 只有 3.06 不达标 */
 
-  --accent:        #0E9B7E;
-  --accent-2:      #0B7A63;
+  /* 强调色压暗到 #0A7A63：白卡上 5.28:1、页面底 4.88:1，
+     白字压在它上面也是 5.28:1（原来的 #0E9B7E 三处都只有 3.2~3.5，不达标） */
+  --accent:        #0A7A63;
+  --accent-2:      #08614F;
   --accent-ink:    #FFFFFF;
-  --accent-soft:   rgba(14, 155, 126, 0.10);
-  --glow:          rgba(14, 155, 126, 0.09);
+  --accent-soft:   rgba(10, 122, 99, 0.10);
+  --glow:          rgba(10, 122, 99, 0.09);
   --grid-line:     rgba(15, 18, 22, 0.035);
 
-  --particle-from: rgba(14, 155, 126, 0.40);
-  --particle-to:   rgba(11, 122, 99, 0.13);
-  --particle-glow: rgba(14, 155, 126, 0.18);
+  --particle-from: rgba(10, 122, 99, 0.42);
+  --particle-to:   rgba(8, 97, 79, 0.14);
+  --particle-glow: rgba(10, 122, 99, 0.18);
   --shadow:        0 1px 2px rgba(15, 18, 22, 0.04),
                    0 14px 34px -26px rgba(15, 18, 22, 0.35);
   --shadow-lift:   0 1px 2px rgba(15, 18, 22, 0.05),
@@ -155,6 +157,23 @@ strong { font-weight: 600; color: var(--text); }
 code, kbd, .mono { font-family: var(--font-mono); }
 
 ::selection { background: var(--accent); color: var(--accent-ink); }
+
+/* 主题切换过渡 --------------------------------------------------------------
+   只在「手动点切换」时给 .theme-anim 加上过渡。为什么不做成常态：
+   1) 常量过渡会在首屏渲染时把初始主题也渐变一遍，出现闪白/闪黑；
+   2) 卡片多、属性杂，常驻 transition 会在滚动时持续参与样式重算。
+   类由 js/main.js 在切换瞬间挂上，420ms 后摘掉。 */
+.theme-anim,
+.theme-anim *:not(.ambient__dots):not(.marquee__track):not(.trace__sweep) {
+  transition: background-color .42s var(--ease-soft),
+              border-color .42s var(--ease-soft),
+              color .42s var(--ease-soft),
+              fill .42s var(--ease-soft),
+              stroke .42s var(--ease-soft) !important;
+}
+
+/* 粒子颜色是 canvas 每帧读 CSS 变量的，过渡对它有延迟反而会闪，
+   所以 canvas 本身、以及跑马灯（有独立 animation）排除在上面之外 */
 
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -814,6 +833,12 @@ code, kbd, .mono { font-family: var(--font-mono); }
   background: var(--surface-2);
   display: grid;
   place-items: center;
+}
+
+/* <picture> 只是格式选择器，本身不参与布局——尺寸由外层 .avatar 定，
+   内部让它自己撑满，否则中间会多出一层匿名盒影响 object-fit 计算 */
+.avatar picture {
+  display: contents;
 }
 
 .avatar img {

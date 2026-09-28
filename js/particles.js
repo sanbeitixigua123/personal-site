@@ -21,6 +21,10 @@
   var root = document.documentElement;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  /* 省流模式：Canvas 是逐帧重绘的，对流量/电量敏感的用户应该直接跳过。
+     判定为「仅画一帧静止点阵」，和 prefers-reduced-motion 走同一条路径。 */
+  var reduceData = window.matchMedia('(prefers-reduced-data: reduce)').matches;
+  var stillOnly = reduceMotion || reduceData;
 
   /* ------------------------------------------------------------- 参数 */
   var CFG = {
@@ -109,7 +113,7 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     buildDots();
-    if (reduceMotion) drawStatic();
+    if (stillOnly) drawStatic();
   }
 
   /* --------------------------------------------------------------- 绘制 */
@@ -224,7 +228,7 @@
   }
 
   function start() {
-    if (running || reduceMotion) return;
+    if (running || stillOnly) return;
     running = true;
     rafId = window.requestAnimationFrame(tick);
   }

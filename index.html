@@ -12,14 +12,26 @@
 <meta name="theme-color" content="#F6F7F8" media="(prefers-color-scheme: light)">
 
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="三倍体西瓜">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:title" content="三倍体西瓜 — 嵌入式开发工程师">
 <meta property="og:description" content="MCU 固件、PCB 硬件设计、上位机工具开发。">
 <meta property="og:url" content="https://sanbeitixigua123.github.io/personal-site/">
-<meta property="og:image" content="assets/images/og-cover.png">
+<!-- og:image 必须是绝对 URL：爬虫抓 meta 时手上没有页面 base，
+     相对路径它补不全，分享卡片就会丢图（站内 <img> 的相对路径不受影响） -->
+<meta property="og:image" content="https://sanbeitixigua123.github.io/personal-site/assets/images/og-cover.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="三倍体西瓜 — 嵌入式开发工程师">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="三倍体西瓜 — 嵌入式开发工程师">
+<meta name="twitter:description" content="MCU 固件、PCB 硬件设计、上位机工具开发。">
+<meta name="twitter:image" content="https://sanbeitixigua123.github.io/personal-site/assets/images/og-cover.png">
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://sanbeitixigua123.github.io/personal-site/">
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
 
 <!-- 字体：非阻塞加载，失败自动回退系统字体，不影响首屏 -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -111,8 +123,17 @@
         <article class="cell cell--intro" data-reveal>
           <div class="intro__head">
             <div class="avatar">
-              <img src="assets/images/avatar.png" alt="三倍体西瓜的头像"
-                   width="512" height="512" decoding="async">
+              <!-- WebP 走 srcset：256px 给 1x，512px 给 2x/3x 高密度屏。
+                   PNG 作为 <picture> 兜底，只在不支持 WebP 的老浏览器上下载。
+                   页面显示尺寸是 clamp(62px, 6.4vw, 92px)，512px 已经很富余。 -->
+              <picture>
+                <source type="image/webp"
+                        srcset="assets/images/avatar-256.webp 256w,
+                                assets/images/avatar-512.webp 512w"
+                        sizes="(max-width: 560px) 62px, 92px">
+                <img src="assets/images/avatar.png" alt="三倍体西瓜的头像"
+                     width="512" height="512" decoding="async" fetchpriority="high">
+              </picture>
             </div>
             <div class="intro__id">
               <p class="eyebrow">你好，我是</p>
@@ -122,7 +143,10 @@
 
           <p class="role-line">
             <span class="role-line__prefix" aria-hidden="true">&gt;_</span>
-            <span class="role-rotator" id="roleRotator" aria-live="polite">
+            <!-- 轮播是装饰性的：每 2.6s 换一次词，若开 aria-live 读屏会被
+                 无限打断。这里给读屏一个静态的完整表述，视觉轮播对它隐藏。 -->
+            <span class="sr-only">嵌入式软件工程师、PCB 硬件设计、上位机工具开发</span>
+            <span class="role-rotator" id="roleRotator" aria-hidden="true">
               <span class="role-rotator__item is-current">嵌入式软件工程师</span>
               <span class="role-rotator__item">PCB 硬件设计</span>
               <span class="role-rotator__item">上位机工具开发</span>
@@ -549,6 +573,26 @@
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ==================================================================
+     访问统计（可选，默认关闭）
+     ------------------------------------------------------------------
+     用 GoatCounter：免 cookie、不采集个人信息、不跨站追踪，
+     因此不需要同意横幅。免费额度对个人站足够。
+
+     启用步骤：
+       1. 去 https://www.goatcounter.com 用邮箱注册，拿到一个站点代码
+          （比如注册成 sanbeitixigua 就只有这一段）
+       2. 把下面 script 的 src 和 data-goatcounter 里的 YOURCODE
+          全换成你的代码
+       3. 取消注释即可，无需其它改动
+
+     不想用 GoatCounter 就换成 Umami / Plausible，改 script 标签即可。
+     ================================================================== -->
+<!--
+<script data-goatcounter="https://YOURCODE.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+-->
 
 <script src="js/particles.js"></script>
 <script src="js/main.js"></script>

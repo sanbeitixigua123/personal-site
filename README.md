@@ -8,15 +8,24 @@
 ```
 个人网站/
 ├── index.html              页面结构与全部文案
+├── 404.html                自定义 404（复用主样式表，风格不断裂）
+├── robots.txt              爬虫规则，指向 sitemap
+├── sitemap.xml             站点地图，便于搜索引擎收录
+├── .nojekyll               禁用 GitHub Pages 的 Jekyll 处理
+├── LICENSE                 MIT
 ├── css/style.css           设计系统：令牌 + 布局 + 组件 + 动效
 ├── js/main.js              界面交互逻辑
 ├── js/particles.js         悬浮粒子场（Canvas 2D，独立成文件）
 ├── assets/
 │   ├── favicon.svg         站点图标
-│   ├── images/             头像、项目截图、OG 封面图
+│   ├── images/             头像（PNG 兜底 + WebP 主用）、OG 封面图
 │   └── fonts/              自托管字体（可选，目前走 CDN + 系统字体回退）
 └── .workbuddy-ai/          WorkBuddy 工作空间数据，不入版本库
 ```
+
+> **`.nojekyll` 别删**。GitHub Pages 默认跑 Jekyll，它会静默吞掉 `_` 开头的
+> 目录和文件（如 `_headers`）。现在没踩到只是因为目录名都没下划线，
+> 留着这个空文件可以永久免疫，且没有任何副作用。
 
 ## 本地预览
 
@@ -135,12 +144,45 @@ var CFG = {
 
 浅色主题在 `[data-theme="light"]` 里对应改一遍。
 
+**浅色主题不能直接沿用深色那套色值**：`#34D3AE` 压在白底上只有 3.5:1，
+做 13px 标签这类小字不达标。浅色主题用的是压暗过的 `#0A7A63`（5.28:1）。
+改配色的流程是：改值 → 跑 `.workbuddy-ai/shots/contrast.py` 看对比度 → 再定稿。
+
+`--particle-*` 三个变量给粒子场用（`js/particles.js` 每帧读），
+跟着强调色一起改，否则粒子颜色会和主题脱节。
+
 ## 无障碍
 
 - 语义化标签、跳转链接、`aria-*` 属性、可见的键盘焦点轮廓
 - 全部动效尊重 `prefers-reduced-motion`
 - 触屏设备自动关闭聚光和鼠标跟随（只保留悬停反馈）
 - 深浅色同时通过 `<meta name="color-scheme">` 告知浏览器
+- **快捷面板焦点陷阱**：面板声明了 `aria-modal="true"`，Tab / Shift+Tab
+  只在面板内循环，关闭时焦点回到打开它的按钮
+- **职位轮播对读屏隐藏**（`aria-hidden`），另给一段 `.sr-only` 静态文本。
+  轮播每 2.6s 换一次词，若开 `aria-live` 会无限打断读屏
+- **深浅两套主题的文字对比度都按 WCAG AA 校准过**（正文 ≥ 4.5:1）。
+  浅色强调色是 `#0A7A63` 而非深色主题的 `#34D3AE`——后者在白底上
+  只有 3.5:1，做文字不达标。改动配色后建议用 `.workbuddy-ai/shots/contrast.py` 复验
+
+## 资源与性能
+
+| 资源 | 处理 |
+|---|---|
+| 头像 | `<picture>` + WebP `srcset`（256w / 512w），PNG 作兜底。299KB → 28KB |
+| 首屏图片 | `fetchpriority="high"` + `width/height`（防布局抖动） |
+| 字体 | Geist 走 CDN 非阻塞加载，失败回退系统字体；中文不加载 webfont |
+| 粒子场 | 页面切后台暂停；`prefers-reduced-motion` 与 `prefers-reduced-data` 下只画一帧静止点阵 |
+
+> **`og:image` 必须写绝对 URL**。爬虫抓 `<meta>` 时手上没有页面 base，
+> 相对路径它补不全，分享卡片会丢图。站内 `<img src>` 用相对路径则没问题
+> ——浏览器有 base，两者规则不同。改域名时记得同步这一处。
+
+## 访问统计（可选，默认关闭）
+
+`index.html` 底部有一段注释掉的 GoatCounter 代码。它免 cookie、
+不采集个人信息、不跨站追踪，因此不需要同意横幅。启用步骤在注释里，
+注册后把 `YOURCODE` 换成你的站点代码即可；不想用可直接换 Umami / Plausible。
 
 ## 部署到 GitHub Pages
 

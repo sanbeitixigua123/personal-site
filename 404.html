@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="robots" content="noindex">
+
+<title>页面走丢了 — 三倍体西瓜</title>
+<meta name="description" content="这个地址没有对应的页面，回到首页继续看看。">
+
+<!-- 路径全用相对形式（./）而不是 /personal-site/：
+     404.html 会被 GitHub Pages 在任意深度的 URL 下返回，
+     绝对路径在自定义域名或本地预览时会指错地方，相对路径两种环境都对。 -->
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+
+<script>
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.classList.add('js');
+  })();
+</script>
+
+<style>
+  /* 只放这一页独有的部分，其余全部复用主样式表，保证风格不断裂 */
+  .lost {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    padding: 40px 20px;
+  }
+
+  .lost__panel {
+    width: min(100%, 560px);
+    text-align: center;
+  }
+
+  /* 404 三个数字用等宽字体 + 强调色描边，跟站内其它数字语言一致 */
+  .lost__code {
+    font-family: var(--font-mono);
+    font-size: clamp(72px, 18vw, 132px);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--accent);
+    text-stroke: 2px var(--accent);
+    margin: 0 0 6px;
+  }
+
+  .lost__trace { margin: 26px auto 30px; height: 46px; max-width: 320px; }
+  .lost__trace svg { width: 100%; height: 100%; display: block; }
+  .lost__trace .trace__base  { stroke: var(--border-2); stroke-width: 1.5; }
+  .lost__trace .trace__sweep {
+    stroke: var(--accent);
+    stroke-width: 1.8;
+    stroke-dasharray: 46 260;
+    animation: sweep 3.2s linear infinite;
+  }
+
+  @keyframes sweep {
+    from { stroke-dashoffset: 306; }
+    to   { stroke-dashoffset: 0; }
+  }
+
+  .lost__title {
+    font-size: clamp(22px, 3.4vw, 30px);
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .lost__desc {
+    color: var(--text-2);
+    margin: 0 0 28px;
+    line-height: 1.7;
+  }
+
+  .lost__actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 34px;
+  }
+
+  /* 顺手给几个去处，比只放一个「回首页」有用 */
+  .lost__links {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+  }
+
+  .lost__links a {
+    font-size: 13px;
+    color: var(--text-2);
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    transition: color .2s, border-color .2s, background-color .2s;
+  }
+
+  .lost__links a:hover {
+    color: var(--accent);
+    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+    background: var(--accent-soft);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lost__trace .trace__sweep { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<main class="lost">
+  <div class="lost__panel">
+
+    <p class="lost__code" aria-hidden="true">404</p>
+    <h1 class="lost__title">这个地址没有页面</h1>
+    <p class="lost__desc">
+      可能是链接拼错了，或者那个页面已经被挪走。<br>
+      不碍事，从下面随便挑条路回去。
+    </p>
+
+    <div class="lost__trace" aria-hidden="true">
+      <svg viewBox="0 0 200 40" preserveAspectRatio="none" fill="none">
+        <path class="trace__base" d="M0 28h14l8-16 8 22 8-14 8 8h28l8-18 8 26 8-16 8 8h34l8-14 8 20 8-12 8 6h14"/>
+        <path class="trace__sweep" d="M0 28h14l8-16 8 22 8-14 8 8h28l8-18 8 26 8-16 8 8h34l8-14 8 20 8-12 8 6h14"/>
+      </svg>
+    </div>
+
+    <div class="lost__actions">
+      <a class="btn btn--primary" href="./">
+        回到首页
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h13M13 6l6 6-6 6"/>
+        </svg>
+      </a>
+      <a class="btn btn--ghost" href="#contact">聊聊合作</a>
+    </div>
+
+    <nav class="lost__links" aria-label="站内导航">
+      <a href="#about">关于我</a>
+      <a href="#skills">技能栈</a>
+      <a href="#projects">项目</a>
+      <a href="#contact">联系</a>
+      <a href="https://github.com/sanbeitixigua123">GitHub</a>
+    </nav>
+
+  </div>
+</main>
+
+</body>
+</html>
